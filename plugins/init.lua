@@ -17,6 +17,7 @@ return {
     {
         "Shatur/neovim-ayu"
     },
+    { "catppuccin/nvim", name = "catppuccin" },
     {
         "zbirenbaum/copilot-cmp",
         dependencies = "copilot.lua",
