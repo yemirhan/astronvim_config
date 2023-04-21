@@ -33,5 +33,38 @@ return {
                 end
             end)
         end,
-    }
+    },
+    {
+        'fatih/vim-go',
+        lazy = true,
+        build = ":GoInstallBinaries",
+        ft = "go",
+    },
+    {
+        'nvim-neorg/neorg',
+        run = ':Neorg sync-parsers',
+        event = 'VeryLazy',
+        enabled = true,
+        version = '2.0.1',
+        config = function()
+            require('neorg').setup({
+                load = {
+                    ['core.defaults'] = {},
+                    ['core.norg.concealer'] = {},
+                    ['core.norg.completion'] = {
+                        config = {
+                            engine = 'nvim-cmp',
+                        },
+                    },
+                    ['core.norg.dirman'] = {
+                        config = {
+                            workspaces = {
+                                notes = '~/notes',
+                            },
+                        },
+                    },
+                },
+            })
+        end,
+    },
 }
