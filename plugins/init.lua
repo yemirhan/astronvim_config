@@ -1,12 +1,76 @@
 return {
+    -- Copilot
+    {
+        'projekt0n/github-nvim-theme',
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            require('github-theme').setup({
+                -- ...
+            })
+
+            vim.cmd('colorscheme github_dark')
+        end,
+    },
+    {
+        'Shatur/neovim-ayu',
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+
+        end,
+    }, {
+    'olivercederborg/poimandres.nvim'
+    ,
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+
+    end,
+},
     {
         "zbirenbaum/copilot.lua",
+        enabled = true,
         cmd = "Copilot",
-        build = ":Copilot auth",
-        opts = {
-            suggestion = { enabled = true },
-            panel = { enabled = false },
-        },
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                panel = {
+                    enabled = true,
+                    auto_refresh = true,
+                    keymap = {
+                        jump_next = "<c-j>",
+                        accept = "<c-k>",
+                        refresh = "r",
+                        open = "<M-CR>",
+                    },
+                    layout = {
+                        position = "bottom", -- | top | left | right
+                        ratio = 0.4,
+                    },
+                },
+                suggestion = {
+                    enabled = true,
+                    auto_trigger = true,
+                    debounce = 75,
+                    keymap = {
+                        accept = "<c-a>",
+                        accept_word = false,
+                        accept_line = false,
+                        next = "<c-j>",
+                        prev = "<c-k>",
+                        dismiss = "<C-e>",
+                    },
+                },
+            })
+        end
+    },
+    -- copilot cmp
+    {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
+        end
     },
     {
         'folke/tokyonight.nvim'
@@ -17,54 +81,13 @@ return {
     {
         "Shatur/neovim-ayu"
     },
-    { "catppuccin/nvim", name = "catppuccin" },
-    {
-        "zbirenbaum/copilot-cmp",
-        dependencies = "copilot.lua",
-        opts = {},
-        config = function(_, opts)
-            local copilot_cmp = require("copilot_cmp")
-            copilot_cmp.setup(opts)
-            -- attach cmp source whenever copilot attaches
-            -- fixes lazy-loading issues with the copilot cmp source
-            require("lazyvim.util").on_attach(function(client)
-                if client.name == "copilot" then
-                    copilot_cmp._on_insert_enter()
-                end
-            end)
-        end,
-    },
+    { "catppuccin/nvim",      name = "catppuccin" },
+    { 'jwalton512/vim-blade', lazy = true,        ft = "php" },
     {
         'fatih/vim-go',
         lazy = true,
         build = ":GoInstallBinaries",
         ft = "go",
     },
-    {
-        'nvim-neorg/neorg',
-        run = ':Neorg sync-parsers',
-        event = 'VeryLazy',
-        enabled = true,
-        version = '2.0.1',
-        config = function()
-            require('neorg').setup({
-                load = {
-                    ['core.defaults'] = {},
-                    ['core.norg.concealer'] = {},
-                    ['core.norg.completion'] = {
-                        config = {
-                            engine = 'nvim-cmp',
-                        },
-                    },
-                    ['core.norg.dirman'] = {
-                        config = {
-                            workspaces = {
-                                notes = '~/notes',
-                            },
-                        },
-                    },
-                },
-            })
-        end,
-    },
+    
 }
